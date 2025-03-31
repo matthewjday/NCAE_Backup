@@ -1,4 +1,4 @@
- #!/usr/bin/bash
+#!/usr/bin/bash
 
 function start {
 	echo "###### Welcome to Auto DNS! ######"
@@ -69,7 +69,7 @@ function dns_install {
 
 #This will edit the config file and add a zone to the file according to the name provided from user input
 function dns_zone_create {
-	read -p "Enter new Zone Name: " ZONE_NAME
+	read -p "Enter New Zone Name: " ZONE_NAME
 	CONFIG_FILE="/etc/bind/named.conf.local"
 
 	echo -e "\n"
@@ -82,7 +82,27 @@ function dns_zone_create {
 
 #This will create an entirely new forward record based on the name given and the area specified
 function dns_new_record_forward {
-	echo "not yet implemented"
+	read -p "Enter Date (YYYYMMDD): " DATE
+ 	read -p "Enter Forward Record Name: " FORWARD_RECORD_NAME
+ 	FORWARD_RECORD_FILE="/var/named/$FORWARD_RECORD_NAME"
+
+  	sudo bash -c "cat > $FORWARD_RECORD_FILE" << EOL
+   	\$TTL	86400
+    	@	IN	SOA	ns1.$FORWARD_RECORD_NAME. admin.$FORWARD_RECORD_NAME. (
+        $DATE01	   ; Serial
+        3600 	   ; Refresh
+        1800       ; Retry
+        604800     ; Expire
+        86400      ; Minimum TTL
+)
+    		IN  NS      ns1.$FORWARD_RECORD_NAME.
+	ns1 	IN  A       192.168.0.1
+	www 	IN  A       192.168.0.2
+	EOL
+
+# Output success message
+echo "Forward Record for '$FORWARD_RECORD_NAME' created at $ZONE_FILE"
+
 }
 
 #This will create an entirely new reverse record

@@ -86,7 +86,7 @@ function dns_new_record_forward {
  	read -p "Enter Forward Record Name: " FORWARD_RECORD_NAME
  	FORWARD_RECORD_FILE="/var/named/$FORWARD_RECORD_NAME"
 
-   	sudo touch FORWARD_RECORD_FILE
+   	sudo touch $FORWARD_RECORD_FILE
 
 	# Write the zone file using echo statements
 	sudo bash -c "echo '\$TTL    86400' > $FORWARD_RECORD_FILE"

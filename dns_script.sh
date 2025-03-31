@@ -133,9 +133,9 @@ function forward_record_add {
  	FILE_NAME="/var/named/$RECORD_NAME"
 
 	echo "You are editing $FILE_NAME"
- 	echo "Please enter subdomain: " SUB_DOMAIN
-  	echo "Please enter record type: " RECORD_TYPE
-   	echo "Please enter full IP Address: " IP_ADDRESS
+ 	read -p "Please enter subdomain: " SUB_DOMAIN
+  	read -p "Please enter record type: " RECORD_TYPE
+   	read -p "Please enter full IP Address: " IP_ADDRESS
 
     	sudo bash -c "echo '$SUB_DOMAIN	IN	$RECORD_TYPE	$IP_ADDRESS' >> $RECORD_NAME"
 

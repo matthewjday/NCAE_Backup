@@ -99,7 +99,6 @@ function dns_new_record_forward {
 	sudo bash -c "echo ')' >> $FORWARD_RECORD_FILE"
 	sudo bash -c "echo '	IN	NS	ns1.$FORWARD_RECORD_NAME.' >> $FORWARD_RECORD_FILE"
 	sudo bash -c "echo 'ns1	IN	A	192.168.0.1' >> $FORWARD_RECORD_FILE"
-	sudo bash -c "echo 'www	IN	A	192.168.0.2' >> $FORWARD_RECORD_FILE"
 
 	echo "Forward Record of '$FORWARD_RECORD_NAME' created at '$FORWARD_RECORD_FILE'"
 }
@@ -121,7 +120,12 @@ function dns_reverse_record_add {
 
 #This will delete a line from the forward record named
 function dns_forward_record_delete {
-	echo "not yet implemented"
+	read -p "Enter Forward Record Name: " FORWARD_RECORD_NAME
+ 	FORWARD_RECORD_FILE="/var/named/$FORWARD_RECORD_NAME"
+
+	sudo rm $FORWARD_RECORD_FILE
+
+ 	echo "Forward Record '$FORWARD_RECORD_NAME' Deleted"
 }
 
 #This will delete a line from the reverse record named

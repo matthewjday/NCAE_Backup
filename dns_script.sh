@@ -133,6 +133,11 @@ function forward_record_edit {
 	read -p "Enter Forward Record Name: " RECORD_NAME
  	FILE_NAME="/var/named/$RECORD_NAME"
 
+	if [[ ! -f "$FILE_NAME" ]]; then
+    		echo "Error: File '$FILE_NAME' does not exist."
+    		exit 1
+	fi
+
 	echo "You are editing $FILE_NAME"
  	read -p "Please enter subdomain: " SUB_DOMAIN
   	read -p "Please enter record type: " RECORD_TYPE

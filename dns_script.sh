@@ -94,18 +94,35 @@ function dns_new_record_forward {
 	sudo bash -c "echo '	${DATE}01	; Serial' >> $FORWARD_RECORD_FILE"
 	sudo bash -c "echo '	3600		; Refresh' >> $FORWARD_RECORD_FILE"
 	sudo bash -c "echo '	1800		; Retry' >> $FORWARD_RECORD_FILE"
-	sudo bash -c "echo '	604800		; Expire' >> $FORWARD_RECORD_FILE"
+	sudo bash -c "echo '	1209600		; Expire' >> $FORWARD_RECORD_FILE"
 	sudo bash -c "echo '	86400		; Minimum TTL' >> $FORWARD_RECORD_FILE"
 	sudo bash -c "echo ')' >> $FORWARD_RECORD_FILE"
-	sudo bash -c "echo '	IN	NS	ns1.$FORWARD_RECORD_NAME.' >> $FORWARD_RECORD_FILE"
-	sudo bash -c "echo 'ns1	IN	A	192.168.0.1' >> $FORWARD_RECORD_FILE"
+	sudo bash -c "echo -e '	IN	NS	ns1.$FORWARD_RECORD_NAME.\n' >> $FORWARD_RECORD_FILE"
 
 	echo "Forward Record of '$FORWARD_RECORD_NAME' created at '$FORWARD_RECORD_FILE'"
 }
 
 #This will create an entirely new reverse record
 function dns_new_record_reverse {
-	echo "not yet implemented"
+	read -p "Enter Date (YYYYMMDD): " DATE
+ 	read -p "Enter Reverse Record IP Address: " REVERSE_RECORD_IP
+ 	REVERSE_RECORD_FILE="/var/named/${REVERSE_RECORD_IP}.in-addr.arpa.zone"
+  	read -p "Enter Zone Name: " REVERSE_RECORD_NAME
+
+ 	echo "Creating new Reverse Record of '$REVERSE_RECORD_NAME'" 
+   	sudo touch $REVERSE_RECORD_FILE
+
+	sudo bash -c "echo '\$TTL    86400' > $REVERSE_RECORD_FILE"
+	sudo bash -c "echo '@	IN	SOA	ns1.$REVERSE_RECORD_NAME.	admin.$REVERSE_RECORD_NAME. (' >> $REVERSE_RECORD_FILE"
+	sudo bash -c "echo '	${DATE}01	; Serial' >> $REVERSE_RECORD_FILE"
+	sudo bash -c "echo '	3600		; Refresh' >> $REVERSE_RECORD_FILE"
+	sudo bash -c "echo '	1800		; Retry' >> $REVERSE_RECORD_FILE"
+	sudo bash -c "echo '	1209600		; Expire' >> $REVERSE_RECORD_FILE"
+	sudo bash -c "echo '	86400		; Minimum TTL' >> $REVERSE_RECORD_FILE"
+	sudo bash -c "echo ')' >> $REVERSE_RECORD_FILE"
+	sudo bash -c "echo '	IN	NS	ns1.$REVERSE_RECORD_NAME.' >> $REVERSE_RECORD_FILE"
+
+	echo "Reverse Record of '$REVERSE_RECORD_IP' created at '$REVERSE_RECORD_FILE'"
 }
 
 #This will add a line to the forward record named
@@ -120,14 +137,15 @@ function dns_reverse_record_add {
 
 #This will delete a dns record from /var/named/
 function dns_record_delete {
-	read -p "Enter Forward Record Name: " RECORD_NAME
+	read -p "Enter Record Name: " RECORD_NAME
  	RECORD_FILE="/var/named/$RECORD_NAME"
 
 	sudo rm $RECORD_FILE
 
- 	echo "Forward Record '$RECORD_NAME' Deleted"
+ 	echo "Record '$RECORD_NAME' Deleted"
 }
 
+#This functions lists every record located in /var/named
 function list_all_records {
 	echo -e "Listing all DNS Records...\n"
  	sudo ls /var/named/

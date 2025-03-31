@@ -24,7 +24,7 @@ function start {
 function options {
 	echo -e "\n"
  	echo -e	"firewall_setup		install			zone_create		new_record_forward"
- 	echo -e "new_record_reverse	forward_record_add	reverse_record_add	record_delete"
+ 	echo -e "new_record_reverse	forward_record_edit	reverse_record_edit	record_delete"
   	echo -e "list_one_record	list_all_records	exit\n"
 }
 
@@ -129,7 +129,7 @@ function new_record_reverse {
 }
 
 #This will add a line to the forward record named
-function forward_record_add {
+function forward_record_edit {
 	read -p "Enter Forward Record Name: " RECORD_NAME
  	FILE_NAME="/var/named/$RECORD_NAME"
 
@@ -144,12 +144,23 @@ function forward_record_add {
 }
 
 #This function can be used to add a line to the DNS reverse file named
-function reverse_record_add {
-	echo "not yet implemented"
+function reverse_record_edit {
+	read -p "Enter Reverse Record Name: " RECORD_NAME
+ 	FILE_NAME="/var/named/$RECORD_NAME"
+
+	echo "You are editing $FILE_NAME"
+ 	read -p "Please enter final IP space: " IP_SPACE
+  	read -p "Please enter record type: " RECORD_TYPE
+   	read -p "Please enter full url: " URL
+
+    	sudo bash -c "echo '$IP_SPACE	IN	$RECORD_TYPE	$URL.' >> $FILE_NAME"
+
+     	echo "Line \"$IP_SPACE	IN	$RECORD_TYPE	$URL.\" has been added to file $FILE_NAME"
 }
 
 #This will delete a dns record from /var/named/
 function record_delete {
+	echo "WARNING: THIS WILL DELETE A FULL DNS RECORD. THERE IS NO RECOVERY"
 	read -p "Enter Record Name: " RECORD_NAME
  	RECORD_FILE="/var/named/$RECORD_NAME"
 

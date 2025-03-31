@@ -22,7 +22,9 @@ function start {
 
 #This function lists every option able to be run by the system
 function options {
-	echo -e "firewall_setup			dns_install		dns_zone_create		dns_new_record_forward\ndns_new_record_reverse		dns_forward_record_add	dns_reverse_record_add	dns_record_delete\nlist_all_records		exit\n"
+	echo -e "firewall_setup		install			zone_create		new_record_forward"
+ 	echo -e "new_record_reverse	forward_record_add	reverse_record_add	record_delete"
+  	echo -e "list_all_records	exit\n"
 }
 
 #This is the function that is used to auto setup a UFW firewall intended for securing a DNS server.
@@ -52,7 +54,7 @@ function firewall_setup {
 #This is the finction that is used to auto install DNS on a system that if it is not installed yet.
 #First, it will check for an install of Bind. If it is there, it will say, "Bind already installed"
 #and exit. Otherwise, it will install.
-function dns_install {
+function install {
 	if ! command -v named &> /dev/null; then
 		echo "Bind is not installed. Installing..."
 		sudo apt install -y bind9
@@ -68,7 +70,7 @@ function dns_install {
 }
 
 #This will edit the config file and add a zone to the file according to the name provided from user input
-function dns_zone_create {
+function zone_create {
 	read -p "Enter New Zone Name: " ZONE_NAME
 	CONFIG_FILE="/etc/bind/named.conf.local"
 
@@ -81,7 +83,7 @@ function dns_zone_create {
 }
 
 #This will create an entirely new forward record based on the name given and the area specified
-function dns_new_record_forward {
+function new_record_forward {
 	read -p "Enter Date (YYYYMMDD): " DATE
  	read -p "Enter Forward Record Name: " FORWARD_RECORD_NAME
  	FORWARD_RECORD_FILE="/var/named/${FORWARD_RECORD_NAME}.zone"
@@ -103,9 +105,9 @@ function dns_new_record_forward {
 }
 
 #This will create an entirely new reverse record
-function dns_new_record_reverse {
+function new_record_reverse {
 	read -p "Enter Date (YYYYMMDD): " DATE
- 	read -p "Enter Reverse Record IP Address: " REVERSE_RECORD_IP
+ 	read -p "Enter IP Range in Reverse Order: " REVERSE_RECORD_IP
  	REVERSE_RECORD_FILE="/var/named/${REVERSE_RECORD_IP}.in-addr.arpa.zone"
   	read -p "Enter Zone Name: " REVERSE_RECORD_NAME
 
@@ -126,17 +128,17 @@ function dns_new_record_reverse {
 }
 
 #This will add a line to the forward record named
-function dns_forward_record_add {
+function forward_record_add {
 	echo "not yet implemented"
 }
 
 #This function can be used to add a line to the DNS reverse file named
-function dns_reverse_record_add {
+function reverse_record_add {
 	echo "not yet implemented"
 }
 
 #This will delete a dns record from /var/named/
-function dns_record_delete {
+function record_delete {
 	read -p "Enter Record Name: " RECORD_NAME
  	RECORD_FILE="/var/named/$RECORD_NAME"
 

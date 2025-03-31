@@ -84,7 +84,7 @@ function dns_zone_create {
 function dns_new_record_forward {
 	read -p "Enter Date (YYYYMMDD): " DATE
  	read -p "Enter Forward Record Name: " FORWARD_RECORD_NAME
- 	FORWARD_RECORD_FILE="/var/named/$FORWARD_RECORD_NAME"
+ 	FORWARD_RECORD_FILE="/var/named/${FORWARD_RECORD_NAME}.zone"
 
  	echo "Creating new Forward Record of '$FORWARD_RECORD_NAME'" 
    	sudo touch $FORWARD_RECORD_FILE
@@ -92,10 +92,10 @@ function dns_new_record_forward {
 	sudo bash -c "echo '\$TTL    86400' > $FORWARD_RECORD_FILE"
 	sudo bash -c "echo '@	IN	SOA	ns1.$FORWARD_RECORD_NAME.	admin.$FORWARD_RECORD_NAME. (' >> $FORWARD_RECORD_FILE"
 	sudo bash -c "echo '	${DATE}01	; Serial' >> $FORWARD_RECORD_FILE"
-	sudo bash -c "echo '	3600	; Refresh' >> $FORWARD_RECORD_FILE"
-	sudo bash -c "echo '	1800	; Retry' >> $FORWARD_RECORD_FILE"
-	sudo bash -c "echo '	604800	; Expire' >> $FORWARD_RECORD_FILE"
-	sudo bash -c "echo '	86400	; Minimum TTL' >> $FORWARD_RECORD_FILE"
+	sudo bash -c "echo '	3600		; Refresh' >> $FORWARD_RECORD_FILE"
+	sudo bash -c "echo '	1800		; Retry' >> $FORWARD_RECORD_FILE"
+	sudo bash -c "echo '	604800		; Expire' >> $FORWARD_RECORD_FILE"
+	sudo bash -c "echo '	86400		; Minimum TTL' >> $FORWARD_RECORD_FILE"
 	sudo bash -c "echo ')' >> $FORWARD_RECORD_FILE"
 	sudo bash -c "echo '    IN	NS	ns1.$FORWARD_RECORD_NAME.' >> $FORWARD_RECORD_FILE"
 	sudo bash -c "echo 'ns1	IN	A	192.168.0.1' >> $FORWARD_RECORD_FILE"

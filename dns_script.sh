@@ -22,9 +22,10 @@ function start {
 
 #This function lists every option able to be run by the system
 function options {
-	echo -e "\nfirewall_setup		install			zone_create		new_record_forward"
+	echo -e "\n"
+ 	echo -e	"firewall_setup		install			zone_create		new_record_forward"
  	echo -e "new_record_reverse	forward_record_add	reverse_record_add	record_delete"
-  	echo -e "list_all_records	exit\n"
+  	echo -e "list_one_record	list_all_records	exit\n"
 }
 
 #This is the function that is used to auto setup a UFW firewall intended for securing a DNS server.
@@ -162,6 +163,15 @@ function list_all_records {
 	echo -e "Listing all DNS Records...\n"
  	sudo ls /var/named/
   	echo -e "\n"
+}
+
+#This function prints a full record to the screen
+function list_one_record {
+	read -p "List record name: " RECORD_NAME
+ 	FILE_NAME="/var/named/$RECORD_NAME"
+
+  	echo "Outputting record to screen: "
+   	sudo cat $FILE_NAME
 }
 
 start

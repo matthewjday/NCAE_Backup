@@ -138,7 +138,7 @@ function forward_record_add {
   	read -p "Please enter record type: " RECORD_TYPE
    	read -p "Please enter full IP Address: " IP_ADDRESS
 
-    	sudo bash -c "echo '$SUB_DOMAIN	IN	$RECORD_TYPE	$IP_ADDRESS' >> $RECORD_NAME"
+    	sudo bash -c "echo '$SUB_DOMAIN	IN	$RECORD_TYPE	$IP_ADDRESS' >> $FILE_NAME"
 
      	echo "Line \"$SUB_DOMAIN	IN	$RECORD_TYPE	$IP_ADDRESS\" has been added to file $FILE_NAME"
 }

@@ -22,7 +22,7 @@ function start {
 
 #This function lists every option able to be run by the system
 function options {
-	echo -e "firewall_setup		install			zone_create		new_record_forward"
+	echo -e "\nfirewall_setup		install			zone_create		new_record_forward"
  	echo -e "new_record_reverse	forward_record_add	reverse_record_add	record_delete"
   	echo -e "list_all_records	exit\n"
 }

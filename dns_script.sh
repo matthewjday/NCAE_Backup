@@ -86,7 +86,7 @@ function dns_new_record_forward {
  	read -p "Enter Forward Record Name: " FORWARD_RECORD_NAME
  	FORWARD_RECORD_FILE="/var/named/$FORWARD_RECORD_NAME"
 
-  	sudo bash -c "cat > $FORWARD_RECORD_FILE" << EOL
+  	sudo bash -c "cat > $FORWARD_RECORD_FILE" <<EOL
    	\$TTL	86400
     	@	IN	SOA	ns1.$FORWARD_RECORD_NAME. admin.$FORWARD_RECORD_NAME. (
         $DATE01	   ; Serial

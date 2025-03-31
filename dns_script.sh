@@ -101,7 +101,7 @@ function dns_new_record_forward {
 	sudo bash -c "echo 'ns1	IN	A	192.168.0.1' >> $FORWARD_RECORD_FILE"
 	sudo bash -c "echo 'www IN	A	192.168.0.2' >> $FORWARD_RECORD_FILE"
 
-	echo "Zone file for '$ZONE_NAME' created at $ZONE_FILE"
+	echo "Zone file for $ZONE_NAME created at $ZONE_FILE"
 }
 
 #This will create an entirely new reverse record

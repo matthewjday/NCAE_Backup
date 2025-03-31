@@ -101,7 +101,7 @@ function new_record_forward {
 	sudo bash -c "echo ')' >> $FORWARD_RECORD_FILE"
 	sudo bash -c "echo -e '	IN	NS	ns1.$FORWARD_RECORD_NAME.\n' >> $FORWARD_RECORD_FILE"
 
-	echo "Forward Record of '$FORWARD_RECORD_NAME' created at '$FORWARD_RECORD_FILE'"
+	echo "Forward Record created at '$FORWARD_RECORD_FILE'"
 }
 
 #This will create an entirely new reverse record
@@ -124,12 +124,20 @@ function new_record_reverse {
 	sudo bash -c "echo ')' >> $REVERSE_RECORD_FILE"
 	sudo bash -c "echo '	IN	NS	ns1.$REVERSE_RECORD_NAME.' >> $REVERSE_RECORD_FILE"
 
-	echo "Reverse Record of '$REVERSE_RECORD_IP' created at '$REVERSE_RECORD_FILE'"
+	echo "Reverse Record created at '$REVERSE_RECORD_FILE'"
 }
 
 #This will add a line to the forward record named
 function forward_record_add {
-	echo "not yet implemented"
+	read -p "Enter Forward Record Name: " RECORD_NAME
+ 	FILE_NAME="/var/named/$RECORD_NAME"
+
+	echo "You are editing $FILE_NAME"
+ 	echo "Please enter subdomain: " SUB_DOMAIN
+  	echo "Please enter record type: " RECORD_TYPE
+   	echo "Please enter full IP Address: " IP_ADDRESS
+
+    	sudo bash -c "echo '$SUB_DOMAIN	IN	$RECORD_TYPE	$IP_ADDRESS' >> $RECORD_NAME
 }
 
 #This function can be used to add a line to the DNS reverse file named

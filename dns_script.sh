@@ -22,7 +22,7 @@ function start {
 
 #This function lists every option able to be run by the system
 function options {
-	echo -e "firewall_setup			dns_install		dns_zone_create		dns_new_record_forward\ndns_new_record_reverse		dns_forward_record_add	dns_reverse_record_add	dns_forward_record_delete\ndns_reverse_record_delete	list_all_records		exit\n"
+	echo -e "firewall_setup			dns_install		dns_zone_create		dns_new_record_forward\ndns_new_record_reverse		dns_forward_record_add	dns_reverse_record_add	dns_forward_record_delete\ndns_reverse_record_delete	list_all_records	exit\n"
 }
 
 #This is the function that is used to auto setup a UFW firewall intended for securing a DNS server.

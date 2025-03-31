@@ -86,23 +86,22 @@ function dns_new_record_forward {
  	read -p "Enter Forward Record Name: " FORWARD_RECORD_NAME
  	FORWARD_RECORD_FILE="/var/named/$FORWARD_RECORD_NAME"
 
-  	sudo bash -c "cat > $FORWARD_RECORD_FILE" <<EOL
-   	\$TTL	86400
-    	@	IN	SOA	ns1.$FORWARD_RECORD_NAME. admin.$FORWARD_RECORD_NAME. (
-        $DATE01	   ; Serial
-        3600 	   ; Refresh
-        1800       ; Retry
-        604800     ; Expire
-        86400      ; Minimum TTL
-)
-    		IN  NS      ns1.$FORWARD_RECORD_NAME.
-	ns1 	IN  A       192.168.0.1
-	www 	IN  A       192.168.0.2
-	EOL
+   	sudo touch FORWARD_RECORD_FILE
 
-# Output success message
-echo "Forward Record for '$FORWARD_RECORD_NAME' created at $ZONE_FILE"
+	# Write the zone file using echo statements
+	sudo bash -c "echo '\$TTL    86400' > $FORWARD_RECORD_FILE"
+	sudo bash -c "echo '@	IN	SOA	ns1.$FORWARD_RECORD_NAME.	admin.$FORWARD_RECORD_NAME. (' >> $FORWARD_RECORD_FILE"
+	sudo bash -c "echo '        $DATE\01 ; Serial' >> $FORWARD_RECORD_FILE"
+	sudo bash -c "echo '        3600       ; Refresh' >> $FORWARD_RECORD_FILE"
+	sudo bash -c "echo '        1800       ; Retry' >> $FORWARD_RECORD_FILE"
+	sudo bash -c "echo '        604800     ; Expire' >> $FORWARD_RECORD_FILE"
+	sudo bash -c "echo '        86400      ; Minimum TTL' >> $FORWARD_RECORD_FILE"
+	sudo bash -c "echo ')' >> $FORWARD_RECORD_FILE"
+	sudo bash -c "echo '    IN  NS      ns1.$FORWARD_RECORD_NAME.' >> $FORWARD_RECORD_FILE"
+	sudo bash -c "echo 'ns1 IN  A       192.168.0.1' >> $FORWARD_RECORD_FILE"
+	sudo bash -c "echo 'www IN  A       192.168.0.2' >> $FORWARD_RECORD_FILE"
 
+	echo "Zone file for '$ZONE_NAME' created at $ZONE_FILE"
 }
 
 #This will create an entirely new reverse record

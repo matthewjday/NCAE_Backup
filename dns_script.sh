@@ -22,7 +22,7 @@ function start {
 
 #This function lists every option able to be run by the system
 function options {
-	echo -e "firewall_setup			dns_install		dns_zone_create		dns_new_record_forward\ndns_new_record_reverse		dns_forward_record_add	dns_reverse_record_add	dns_forward_record_delete\ndns_reverse_record_delete	list_all_records	exit\n"
+	echo -e "firewall_setup			dns_install		dns_zone_create		dns_new_record_forward\ndns_new_record_reverse		dns_forward_record_add	dns_reverse_record_add	dns_record_delete		list_all_records\nexit\n"
 }
 
 #This is the function that is used to auto setup a UFW firewall intended for securing a DNS server.
@@ -118,29 +118,20 @@ function dns_reverse_record_add {
 	echo "not yet implemented"
 }
 
-#This will delete a line from the forward record named
-function dns_forward_record_delete {
-	read -p "Enter Forward Record Name: " FORWARD_RECORD_NAME
- 	FORWARD_RECORD_FILE="/var/named/$FORWARD_RECORD_NAME"
+#This will delete a dns record from /var/named/
+function dns_record_delete {
+	read -p "Enter Forward Record Name: " RECORD_NAME
+ 	RECORD_FILE="/var/named/$RECORD_NAME"
 
-	sudo rm $FORWARD_RECORD_FILE
+	sudo rm $RECORD_FILE
 
- 	echo "Forward Record '$FORWARD_RECORD_NAME' Deleted"
-}
-
-#This will delete a line from the reverse record named
-function dns_reverse_record_delete {
-	read -p "Enter Forward Record Name: " REVERSE_RECORD_NAME
- 	REVERSE_RECORD_FILE="/var/named/$REVERSE_RECORD_NAME"
-
-	sudo rm $REVERSE_RECORD_FILE
-
- 	echo "Forward Record '$REVERSE_RECORD_NAME' Deleted"
+ 	echo "Forward Record '$RECORD_NAME' Deleted"
 }
 
 function list_all_records {
-	echo "Listing all DNS Records..."
+	echo -e "Listing all DNS Records...\n"
  	sudo ls /var/named/
+  	echo -e "\n"
 }
 
 start

@@ -135,17 +135,16 @@ function forward_record_edit {
 
 	if [[ ! -f "$FILE_NAME" ]]; then
     		echo "Error: File '$FILE_NAME' does not exist."
-    		exit 1
+    	else
+	     	echo "You are editing $FILE_NAME"
+	 	read -p "Please enter subdomain: " SUB_DOMAIN
+	  	read -p "Please enter record type: " RECORD_TYPE
+	   	read -p "Please enter full IP Address: " IP_ADDRESS
+	
+	    	sudo bash -c "echo '$SUB_DOMAIN	IN	$RECORD_TYPE	$IP_ADDRESS' >> $FILE_NAME"
+	
+	     	echo "Line \"$SUB_DOMAIN	IN	$RECORD_TYPE	$IP_ADDRESS\" has been added to file $FILE_NAME"
 	fi
-
-	echo "You are editing $FILE_NAME"
- 	read -p "Please enter subdomain: " SUB_DOMAIN
-  	read -p "Please enter record type: " RECORD_TYPE
-   	read -p "Please enter full IP Address: " IP_ADDRESS
-
-    	sudo bash -c "echo '$SUB_DOMAIN	IN	$RECORD_TYPE	$IP_ADDRESS' >> $FILE_NAME"
-
-     	echo "Line \"$SUB_DOMAIN	IN	$RECORD_TYPE	$IP_ADDRESS\" has been added to file $FILE_NAME"
 }
 
 #This function can be used to add a line to the DNS reverse file named

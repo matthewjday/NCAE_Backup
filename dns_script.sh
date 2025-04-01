@@ -25,7 +25,7 @@ function options {
 	echo -e "\n"
  	echo -e	"firewall_setup		install			zone_create		new_record_forward"
  	echo -e "new_record_reverse	forward_record_edit	reverse_record_edit	record_delete"
-  	echo -e "list_one_record	list_all_records	exit\n"
+  	echo -e "list_one_record		list_all_records	exit\n"
 }
 
 #This is the function that is used to auto setup a UFW firewall intended for securing a DNS server.

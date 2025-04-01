@@ -155,6 +155,7 @@ function forward_record_edit {
    		else
 	    		sudo bash -c "echo '$SUB_DOMAIN	IN	$RECORD_TYPE	$IP_ADDRESS' >> $FILE_NAME"
 	     		echo "Line \"$SUB_DOMAIN	IN	$RECORD_TYPE	$IP_ADDRESS\" has been added to file $FILE_NAME"
+		fi
 	fi
 }
 

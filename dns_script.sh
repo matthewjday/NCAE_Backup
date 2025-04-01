@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 
 function start {
-	echo -e"\n\n###### Welcome to Auto DNS! ######\n\n"
+	echo -e "\n\n###### Welcome to Auto DNS! ######\n\n"
 	while true; do
 		echo -e "Type \"options\" for help\nPlease choose an option: "
 		read function_name

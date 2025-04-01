@@ -20,7 +20,7 @@ function start {
 	done
 }
 
-#This function lists every option able to be run by the system
+#This function lists every option able to be run by the script
 function options {
 	echo -e "\n"
  	echo -e	"firewall_setup		install			zone_create		new_record_forward"
@@ -138,8 +138,9 @@ function new_record_reverse {
 function forward_record_edit {
 	read -p "Enter Forward Record Name: " RECORD_NAME
  	FILE_NAME="/var/named/$RECORD_NAME"
+	VALID_RECORD_TYPES=("A" "AAAA" "CNAME" "NS" "PTR" "SOA" "SRV" "TXT" "CAA")
 
-	#Validates the existance of the record first
+  	#Validates the existance of the record first
 	if [[ ! -f "$FILE_NAME" ]]; then
     		echo "Error: File '$FILE_NAME' does not exist."
     	else
@@ -147,10 +148,13 @@ function forward_record_edit {
 	 	read -p "Please enter subdomain: " SUB_DOMAIN
 	  	read -p "Please enter record type: " RECORD_TYPE
 	   	read -p "Please enter full IP Address: " IP_ADDRESS
-	
-	    	sudo bash -c "echo '$SUB_DOMAIN	IN	$RECORD_TYPE	$IP_ADDRESS' >> $FILE_NAME"
-	
-	     	echo "Line \"$SUB_DOMAIN	IN	$RECORD_TYPE	$IP_ADDRESS\" has been added to file $FILE_NAME"
+
+       		#Validates the DNS record type
+     		if [[ ! " ${VALID_RECORD_TYPES[@]} " =~ "$RECORD_TYPE} " ]]; then
+   			echo "Error: $RECORD_TYPE is not a valid DNS Record Type"
+   		else
+	    		sudo bash -c "echo '$SUB_DOMAIN	IN	$RECORD_TYPE	$IP_ADDRESS' >> $FILE_NAME"
+	     		echo "Line \"$SUB_DOMAIN	IN	$RECORD_TYPE	$IP_ADDRESS\" has been added to file $FILE_NAME"
 	fi
 }
 
@@ -159,19 +163,26 @@ function forward_record_edit {
 function reverse_record_edit {
 	read -p "Enter Reverse Record Name: " RECORD_NAME
  	FILE_NAME="/var/named/$RECORD_NAME"
+  	VALID_RECORD_TYPES=("A" "AAAA" "CNAME" "NS" "PTR" "SOA" "SRV" "TXT" "CAA")
 
 	#Validates the existance of the record first
 	if [[ ! -f "$FILE_NAME" ]]; then
     		echo "Error: File '$FILE_NAME' does not exist."
     	else
 		echo "You are editing $FILE_NAME"
-	 	read -p "Please enter final IP space: " IP_SPACE
-	  	read -p "Please enter record type: " RECORD_TYPE
-	   	read -p "Please enter full url: " URL
+		read -p "Please enter final IP space: " IP_SPACE
+		read -p "Please enter record type: " RECORD_TYPE
+		read -p "Please enter full url: " URL
+
+   		#Validates a proper DNS Record type
+     		if [[ ! " ${VALID_RECORD_TYPES[@]} " =~ "$RECORD_TYPE} " ]]; then
+   			echo "Error: $RECORD_TYPE is not a valid DNS Record Type"
+      			echo "Supported Records are 'A' 'AAAA' 'CNAME' 'NS' 'PTR' 'SOA' 'SRV' 'TXT' and 'CAA'"
+   		else
+	    		sudo bash -c "echo '$IP_SPACE	IN	$RECORD_TYPE	$URL.' >> $FILE_NAME"
 	
-	    	sudo bash -c "echo '$IP_SPACE	IN	$RECORD_TYPE	$URL.' >> $FILE_NAME"
-	
-	     	echo "Line \"$IP_SPACE	IN	$RECORD_TYPE	$URL.\" has been added to file $FILE_NAME"
+	     		echo "Line \"$IP_SPACE	IN	$RECORD_TYPE	$URL.\" has been added to file $FILE_NAME"
+		fi
        fi
 }
 
@@ -185,7 +196,7 @@ function record_delete {
 	else
  		read -p "Are you sure you want to delete '$RECORD_NAME'? Type 'yes' to continue: " CONFIRMATION
    		if [[ "$CONFIRMATION" != "yes" ]]; then
-     			echo "Canceled."
+     			echo "Cancelling..."
 		else
   			sudo rm $RECORD_FILE
  			echo "Record '$RECORD_NAME' Deleted"	

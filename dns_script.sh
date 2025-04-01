@@ -138,7 +138,7 @@ function new_record_reverse {
 function forward_record_edit {
 	read -p "Enter Forward Record Name: " RECORD_NAME
  	FILE_NAME="/var/named/$RECORD_NAME"
-	VALID_RECORD_TYPES=("A" "AAAA" "CNAME" "NS" "PTR" "SOA" "SRV" "TXT" "CAA")
+	VALID_RECORD_TYPES=("A" "AAAA" "CNAME" "NS" "PTR" "SOA" "SRV" "TXT" "CAA"]
 
   	#Validates the existance of the record first
 	if [[ ! -f "$FILE_NAME" ]]; then
@@ -150,7 +150,7 @@ function forward_record_edit {
 	   	read -p "Please enter full IP Address: " IP_ADDRESS
 
        		#Validates the DNS record type
-     		if [[ ! " ${VALID_RECORD_TYPES[@]} " =~ "$RECORD_TYPE} " ]]; then
+     		if [[ ! " ${VALID_RECORD_TYPES[*]} " =~ " ${RECORD_TYPE} " ]]; then
    			echo "Error: $RECORD_TYPE is not a valid DNS Record Type"
    		else
 	    		sudo bash -c "echo '$SUB_DOMAIN	IN	$RECORD_TYPE	$IP_ADDRESS' >> $FILE_NAME"

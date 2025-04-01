@@ -221,4 +221,10 @@ function list_one_record {
    	sudo cat $FILE_NAME
 }
 
-start
+#This is what calls the start function, doing so only if the user is in the dnsuser group
+if ! groups | grep -q "\bdnsuser\b"; then
+	echo "You do not have sufficient permissions to use this script"
+ 	exit 1
+else
+	start
+fi

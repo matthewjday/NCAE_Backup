@@ -181,7 +181,7 @@ function record_delete {
  	RECORD_FILE="/var/named/$RECORD_NAME"
 	if [[ ! -f "$RECORD_FILE" ]]; then
 	        echo "Error: Record file '$RECORD_FILE' does not exist."
-	elif
+	else
  		read -p "Are you sure you want to delete '$RECORD_NAME'? Type 'yes' to continue: " CONFIRMATION
    		if [[ "$CONFIRMATION" != "yes" ]]; then
      			echo "Canceled."

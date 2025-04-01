@@ -8,7 +8,7 @@ function start {
 
 		if [ "$function_name" == "exit" ]; then
 			echo "Exiting..."
-			break
+			exit 1
 		fi
 
 		if declare -f "$function_name" > /dev/null; then
@@ -176,7 +176,7 @@ function reverse_record_edit {
 		read -p "Please enter full url: " URL
 
    		#Validates a proper DNS Record type
-     		if [[ ! " ${VALID_RECORD_TYPES[@]} " =~ "$RECORD_TYPE} " ]]; then
+     		if [[ ! " ${VALID_RECORD_TYPES[*]} " =~ "${RECORD_TYPE} " ]]; then
    			echo "Error: $RECORD_TYPE is not a valid DNS Record Type"
       			echo "Supported Records are 'A' 'AAAA' 'CNAME' 'NS' 'PTR' 'SOA' 'SRV' 'TXT' and 'CAA'"
    		else

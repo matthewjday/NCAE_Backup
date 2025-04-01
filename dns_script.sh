@@ -50,7 +50,7 @@ function firewall_setup {
 
 #This is the finction that is used to auto install DNS on a system that if it is not installed yet.
 #First, it will check for an install of Bind. If it is there, it will say, "Bind already installed"
-#and exit. Otherwise, it will install.
+#and exit. Otherwise, it will install and enable Bind.
 function install {
 	#validates if Bind is already installed
 	if ! command -v named &> /dev/null; then
@@ -109,13 +109,13 @@ function new_record_forward {
 
 #This will create an entirely new reverse record with the name given and the area specified
 function new_record_reverse {
-	read -p "Enter Date (YYYYMMDD): " DATE
  	read -p "Enter IP Range in Reverse Order: " REVERSE_RECORD_IP
  	REVERSE_RECORD_FILE="/var/named/${REVERSE_RECORD_IP}.in-addr.arpa.zone"
 
 	if [[ -f "$REVERSE_RECORD_FILE" ]]; then
         	echo "Error: Reverse record file '$REVERSE_RECORD_FILE' already exists."
         else
+		read -p "Enter Date (YYYYMMDD): " DATE
 	 	read -p "Enter Zone Name: " REVERSE_RECORD_NAME
    		echo "Creating new Reverse Record of '$REVERSE_RECORD_NAME'" 
 	   	sudo touch $REVERSE_RECORD_FILE
@@ -154,7 +154,8 @@ function forward_record_edit {
 	fi
 }
 
-#This function can be used to add a line to the DNS reverse record named. It will not edit a file if that file does not exist previously
+#This function can be used to add a line to the DNS reverse record named.  
+#It will not edit a file if that file does not exist previously
 function reverse_record_edit {
 	read -p "Enter Reverse Record Name: " RECORD_NAME
  	FILE_NAME="/var/named/$RECORD_NAME"

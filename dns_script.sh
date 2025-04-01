@@ -138,7 +138,7 @@ function new_record_reverse {
 function forward_record_edit {
 	read -p "Enter Forward Record Name: " RECORD_NAME
  	FILE_NAME="/var/named/$RECORD_NAME"
-	VALID_RECORD_TYPES=("A" "AAAA" "CNAME" "NS" "PTR" "SOA" "SRV" "TXT" "CAA"]
+	VALID_RECORD_TYPES=("A" "AAAA" "CNAME" "NS" "PTR" "SOA" "SRV" "TXT" "CAA")
 
   	#Validates the existance of the record first
 	if [[ ! -f "$FILE_NAME" ]]; then
